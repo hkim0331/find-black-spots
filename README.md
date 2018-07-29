@@ -2,6 +2,10 @@
 create: 2018-07-28.<br>
 update: 2018-07-29,
 
+2018 PBL の裏面回答。
+OpenCV等のグラフックライブラリによらずに、
+2Dイメージ上の黒スポットを認識する racket プログラム。
+
 ## find-black-spots
 
 ```
