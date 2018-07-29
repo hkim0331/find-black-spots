@@ -41,6 +41,8 @@ $ ./find-black-spots.rkt img.png
 
 ## 実行時間
 
+obsolete. must be rewritten.
+
 * sample2.png --- 30x23
 * sample.png ---  648x498
 
