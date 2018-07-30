@@ -40,38 +40,40 @@ $ ./find-black-spots.rkt img.png
 
 黒のまとまりをリストで返す。
 
+## display-spots.rkt
+
+```
+(display-spots spots)
+```
+
+見つけたスポットごとに色を変えて表示（坂口への宿題だったはず）。
 
 ## find-black-spots.rkt
 
+あとはまとめるだけ。
+
 ```
 #lang racket
-(require "find-blacks.rkt" "find-spots.rkt")
-(find-spots (find-blacks "sample2.png"))
+(require "find-blacks.rkt" "find-spots.rkt" "display-spots.rkt")
+(define spots (find-spots (find-blacks img)))
+(display-spots spots)
 ```
 
 ## 実行時間
 
-obsolete. must be rewritten.
-
-* sample2.png --- 30x23
-* sample.png ---  648x498
-
 ```
-> (time (find-spots (find-black "sample2.png")))
-cpu time: 5 real time: 4 gc time: 0
-> (time (find-spots (find-blacks "sample.png")))
-cpu time: 68055 real time: 68231 gc time: 434
+time racket find-black-spots.rkt sample2.png
+#t
+        2.49 real         2.35 user         0.13 sys
 ```
-
-common-x? を改良したおかげでスピードアップなったはず(2018-07-29).
 
 ## FIXME
 
 * BUG: 2018-07-29, 上下に分離できていない。
-  => FIX.
+  FIX: 2018-07-29.
 
-* 算出したスポットを表示する関数 display-spot
-  => DONE.
+* 算出したスポットを表示する関数 display-spot. 
+  DONE: 2018-07-29.
 
 ---
 hiroshi.kimura.0331@gmail.com
