@@ -1,12 +1,19 @@
 # find-black-spots
 create: 2018-07-28.<br>
-update: 2018-07-29,
+update: 2018-07-29, 2018-07-30.
 
 2018 PBL の裏面回答。
+
 OpenCV等のグラフックライブラリによらずに、
 2Dイメージ上の黒スポットを認識する racket プログラム。
 
-## find-black-spots
+三つに分けてプログラムする。
+
+* find-blacks
+* find-spots
+* display-spots
+
+# find-black-spots
 
 ```
 $ ./find-black-spots.rkt img.png
@@ -23,24 +30,48 @@ $ ./find-black-spots.rkt img.png
 
 接触していると考える。
 
-## find-blacks.rkt
+# find-blacks.rkt
 
-```
+```lisp
 (find-blacks "filename.png")
 ```
 イメージファイルを引数にとり、黒と判定されるピクセルの座標を行ごとに返す。
 
-黒を発見しない行は戻り値から外す。
+黒が見つからない行は戻り値から外す。
 
-## find-spots.rkt
-
+```lisp
+(define find-blacks-aux
+  (lambda (filename)
+    (let ((bm (make-object bitmap% filename)))
+      (for/list ([y (range (send bm get-height))])
+        (for/list ([x (range (send bm get-width))] #:when (black? bm x y))
+          (list x y))))))
 ```
+
+# find-spots.rkt
+
+```lisp
 (find-spots lines)
 ```
 
 黒のまとまりをリストで返す。
 
-## display-spots.rkt
+y-1 は変数だよ。
+
+```lisp
+;; common-x? は名前が変。
+(define common-x?
+  (lambda (s1 s2)
+    (let* ((x1 (map car s1))
+           (y-1 (- (second (first s1)) 1))
+           (x2 (map car
+                    (filter
+                     (lambda (xy) (= y-1 (second xy)))
+                     s2))))
+      (not (empty? (set-intersect x1 x2))))))
+```
+
+# display-spots.rkt
 
 ```
 (display-spots spots)
@@ -48,7 +79,18 @@ $ ./find-black-spots.rkt img.png
 
 見つけたスポットごとに色を変えて表示（坂口への宿題だったはず）。
 
-## find-black-spots.rkt
+```lisp
+(define display-spot
+  (lambda (spot bm)
+    (let ((argb (vector-ref colors *c*)))
+      (for ([xy spot])
+        (send bm set-argb-pixels (first xy) (second xy) 1 1 argb))
+      (set! *c* (modulo (+ *c* 1) (vector-length colors))))))
+```
+
+引数に取らない colors も \*c\* と同様、\*colors\* にするべきかも。
+
+# find-black-spots.rkt
 
 あとはまとめるだけ。
 
@@ -59,7 +101,7 @@ $ ./find-black-spots.rkt img.png
 (display-spots spots)
 ```
 
-## 実行時間
+# 実行時間
 
 ```
 time racket find-black-spots.rkt sample2.png
@@ -67,12 +109,21 @@ time racket find-black-spots.rkt sample2.png
         2.49 real         2.35 user         0.13 sys
 ```
 
-## FIXME
+# 宿題出てるのに、
+
+* やってこないのは誰だ？
+* 手もつけないのは誰だ？
+* 完璧でなくてもいい。「時間と能力を尽くしてやってみた」ところを見せなさい。
+* 完璧じゃない方がゼミのトピックに好適。
+* 手もつけないか、お茶を濁したようなその場しのぎのプログラム持ってきたって
+  お勉強にならないよ。
+
+# FIXME
 
 * BUG: 2018-07-29, 上下に分離できていない。
   FIX: 2018-07-29.
 
-* 算出したスポットを表示する関数 display-spot. 
+* 算出したスポットを表示する関数 display-spot.
   DONE: 2018-07-29.
 
 ---
