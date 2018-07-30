@@ -20,7 +20,7 @@ $ ./find-black-spots.rkt img.png
 ```
 
 イメージファイル img.png を引数にとり、
-グループごとに色分けし、spots.png にセーブ。
+グループごとに色分けし、spots.png にセーブする。
 
 グループとは「黒で接触しているイメージ」。これをどう Scheme で表現するかが問題。
 
@@ -28,7 +28,7 @@ $ ./find-black-spots.rkt img.png
 * 二つのセグメントに、共通する x 座標のものがあり、
 * それらの y 座標は1しか違わないものがあるとき、
 
-接触していると考える。
+「二つのセグメントは接触している」と判定する。
 
 # find-blacks.rkt
 
@@ -38,6 +38,9 @@ $ ./find-black-spots.rkt img.png
 イメージファイルを引数にとり、黒と判定されるピクセルの座標を行ごとに返す。
 
 黒が見つからない行は戻り値から外す。
+
+
+コアな関数だけ示す。詳細は同梱するファイルを。
 
 ```lisp
 (define find-blacks-aux
@@ -56,7 +59,7 @@ $ ./find-black-spots.rkt img.png
 
 黒のまとまりをリストで返す。
 
-y-1 は変数だよ。
+コアな関数だけ。y-1 は変数だよ。詳しくは同梱するファイルを見ること。
 
 ```lisp
 ;; common-x? は名前が変。
@@ -78,6 +81,7 @@ y-1 は変数だよ。
 ```
 
 見つけたスポットごとに色を変えて表示（坂口への宿題だったはず）。
+コアな関数だけ示す。他はファイルをあたれ。
 
 ```lisp
 (define display-spot
@@ -97,16 +101,17 @@ y-1 は変数だよ。
 ```
 #lang racket
 (require "find-blacks.rkt" "find-spots.rkt" "display-spots.rkt")
-(define spots (find-spots (find-blacks img)))
-(display-spots spots)
+
+(display (find-spots (find-blacks img)))
 ```
 
 # 実行時間
 
+sample2.png のサイズは 648 x 498。
+
 ```
-time racket find-black-spots.rkt sample2.png
-#t
-        2.49 real         2.35 user         0.13 sys
+$ time racket find-black-spots.rkt sample2.png
+2.49 real         2.35 user         0.13 sys
 ```
 
 # 宿題出てるのに、

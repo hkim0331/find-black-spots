@@ -30,23 +30,20 @@
 ;;   (lambda (xs)
 ;;     (pack-f cont? xs)))
 
-;; サンプルデータ
+;; サンプルデータ。デバッグ用。
 (define make-sample
   (lambda (rng y r)
     (filter (lambda (x) (< (random 10) (* 10 r)))
             (map (lambda (x) (list x y)) (apply range rng)))))
+;; (define line1 (make-sample '(0 20) 1 0.7))
+;; (define line2 (make-sample '(0 20) 2 0.7))
+;; (define line3 (make-sample '(0 20) 3 0.7))
 
-(define line1 (make-sample '(0 20) 1 0.7))
-(define line2 (make-sample '(0 20) 2 0.7))
-(define line3 (make-sample '(0 20) 3 0.7))
+;; (define seg1 (segmentize line1))
+;; (define seg2 (segmentize line2))
+;; (define seg3 (segmentize line3))
 
-(define seg1 (segmentize line1))
-(define seg2 (segmentize line2))
-(define seg3 (segmentize line3))
-
-;; 共通の x 座標を持つものがあるか？
-;; BUG, y 座標が 1 だけ増えてるやつと比較しないとだめじゃね？
-;; FIX.
+;; y 座標が 1 だけ増えてる、共通の x 座標を持つものがあるか？
 (define common-x?
   (lambda (s1 s2)
     (let* ((x1 (map car s1))
@@ -59,7 +56,7 @@
       (not (empty? (set-intersect x1 x2))))))
 
 ;; mix-in version 2.
-;; FIXME: connects と disjoints
+;; FIXME: connects と disjoints の名前が変か？
 (define mix-in
   (lambda (s l)
     (let ((connects
@@ -82,7 +79,3 @@
     (let ((lines (map segmentize blacks)))
       (foldl join2 (car lines) (cdr lines)))))
 
-;;BUG FIX.
-;; (find-spots '(((0 0) (1 0) (2 0))
-;;               ((2 1) (3 1) (4 1))
-;;               ((0 2) (1 2) (2 2))))

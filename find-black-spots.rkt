@@ -6,9 +6,9 @@
          "display-spots.rkt")
 
 (define img "sample1.png")
+
 (let ((argv (current-command-line-arguments)))
   (unless (zero? (vector-length argv))
     (set! img (vector-ref argv 0))))
 
-(define spots (find-spots (find-blacks img)))
-(display-spots spots)
+(display-spots (find-spots (find-blacks img)))
