@@ -34,10 +34,11 @@
 (define make-sample
   (lambda (rng y r)
     (filter (lambda (x) (< (random 10) (* 10 r)))
+
             (map (lambda (x) (list x y)) (apply range rng)))))
-;; (define line1 (make-sample '(0 20) 1 0.7))
-;; (define line2 (make-sample '(0 20) 2 0.7))
-;; (define line3 (make-sample '(0 20) 3 0.7))
+;;(define line1 (make-sample '(0 20) 1 0.7))
+;;(define line2 (make-sample '(0 20) 2 0.7))
+;;(define line3 (make-sample '(0 20) 3 0.7))
 
 ;; (define seg1 (segmentize line1))
 ;; (define seg2 (segmentize line2))
@@ -79,3 +80,4 @@
     (let ((lines (map segmentize blacks)))
       (foldl join2 (car lines) (cdr lines)))))
 
+;;(find-spots (list line1 line2 line3))

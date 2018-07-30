@@ -84,15 +84,25 @@ $ ./find-black-spots.rkt img.png
 コアな関数だけ示す。他はファイルをあたれ。
 
 ```lisp
+(define *colors*
+  (list->vector (list (bytes 255 255 0 0)
+                      (bytes 255 0 255 0)
+                      (bytes 255 0 0 255)
+                      (bytes 255 255 255 0)
+                      (bytes 255 255 0 255)
+                      (bytes 255 0 255 255))))
+(define *c* 0)
+(define next-color
+  (lambda ()
+    (set! *c* (modulo (+ 1 *c*) (vector-length *colors*)))
+    (vector-ref *colors* *c*)))
+
 (define display-spot
   (lambda (spot bm)
-    (let ((argb (vector-ref colors *c*)))
+    (let ((argb (next-color)))
       (for ([xy spot])
-        (send bm set-argb-pixels (first xy) (second xy) 1 1 argb))
-      (set! *c* (modulo (+ *c* 1) (vector-length colors))))))
+        (send bm set-argb-pixels (first xy) (second xy) 1 1 argb)))))
 ```
-
-引数に取らない colors も \*c\* と同様、\*colors\* にするべきかも。
 
 # find-black-spots.rkt
 
@@ -100,7 +110,9 @@ $ ./find-black-spots.rkt img.png
 
 ```
 #lang racket
-(require "find-blacks.rkt" "find-spots.rkt" "display-spots.rkt")
+(require "find-blacks.rkt"
+         "find-spots.rkt"
+         "display-spots.rkt")
 
 (display (find-spots (find-blacks img)))
 ```
@@ -113,6 +125,13 @@ sample2.png のサイズは 648 x 498。
 $ time racket find-black-spots.rkt sample2.png
 2.49 real         2.35 user         0.13 sys
 ```
+
+最初のバグったプログラムでは同じことやろうとして 70 秒弱かかったはず。
+
+バグ修正した上、30倍以上高速になった。あと 2 倍程度は高速化の見込みあり。
+それはどこでしょう？
+
+馬場の未完成版プログラムは何秒かかった？
 
 # 宿題出てるのに、
 
