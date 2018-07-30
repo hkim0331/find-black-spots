@@ -26,4 +26,5 @@
   (lambda (filename)
     (filter (lambda (x) (not (empty? x))) (find-blacks-aux filename))))
 
-;(find-blacks "sample1.png")
+;;(find-blacks "sample1.png")
+

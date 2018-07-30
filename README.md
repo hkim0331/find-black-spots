@@ -1,6 +1,6 @@
 # find-black-spots
 create: 2018-07-28.<br>
-update: 2018-07-29, 2018-07-30.
+update: 2018-07-29, 2018-07-30, 2018-08-01.
 
 2018 PBL の裏面回答。
 
@@ -30,7 +30,7 @@ $ ./find-black-spots.rkt img.png
 
 「二つのセグメントは接触している」と判定する。
 
-# find-blacks.rkt
+# 下請け (1/3) find-blacks.rkt
 
 ```lisp
 (find-blacks "filename.png")
@@ -39,8 +39,7 @@ $ ./find-black-spots.rkt img.png
 
 黒が見つからない行は戻り値から外す。
 
-
-コアな関数だけ示す。詳細は同梱するファイルを。
+コアな関数だけ示す。詳細は同梱するファイルにあたれ。
 
 ```lisp
 (define find-blacks-aux
@@ -51,13 +50,16 @@ $ ./find-black-spots.rkt img.png
           (list x y))))))
 ```
 
-# find-spots.rkt
+# 下請け (2/3) find-spots.rkt
 
 ```lisp
 (find-spots lines)
 ```
 
-黒のまとまりをリストで返す。
+find-back-spots で一番がんばる部分。
+
+黒のまとまりをリストで返す。y 座標が連続していて、かつ、セグメント内に
+同じx座標のピクセルがあるセグメント同士をくっつける。
 
 コアな関数だけ。y-1 は変数だよ。詳しくは同梱するファイルを見ること。
 
@@ -74,18 +76,23 @@ $ ./find-black-spots.rkt img.png
       (not (empty? (set-intersect x1 x2))))))
 ```
 
-# display-spots.rkt
+# 下請け (3/3) display-spots.rkt
 
 ```
 (display-spots spots)
 ```
 
 見つけたスポットごとに色を変えて表示（坂口への宿題だったはず）。
-コアな関数だけ示す。他はファイルをあたれ。
+
+カラーを選択する関数のほか、スポットごとにピクセルを塗りつぶす関数。
+find-black-spots 中、一番イージーな部分。
+
+コアな関数だけ示す。詳細はファイルをあたれ。
 
 ```lisp
 (define *colors*
-  (list->vector (list (bytes 255 255 0 0)
+  (list->vector (list (bytes 255 255 255 255)
+                      (bytes 255 255 0 0)
                       (bytes 255 0 255 0)
                       (bytes 255 0 0 255)
                       (bytes 255 255 255 0)
@@ -107,6 +114,7 @@ $ ./find-black-spots.rkt img.png
 # find-black-spots.rkt
 
 あとはまとめるだけ。
+必要な関数は 3 つのファイルから provide してある。
 
 ```
 #lang racket
@@ -127,19 +135,24 @@ $ time racket find-black-spots.rkt sample2.png
 ```
 
 最初のバグったプログラムでは同じことやろうとして 70 秒弱かかったはず。
+(&rArr; redmine. 消しちゃったかな？)
 
-バグ修正した上、30倍以上高速になった。あと 2 倍程度は高速化の見込みあり。
+バグ修正したら、30 倍以上高速になった。あと 2 倍程度は高速化の見込みあり。
 それはどこでしょう？
 
-馬場の未完成版プログラムは何秒かかった？
-発表では具体的なデータを出すこと。
+（馬場の未完成版プログラムは何秒かかった？
+発表では具体的なデータを出すこと。）
 
 # 宿題出てるのに、
 
 * やってこないのは誰だ？
+
 * 手もつけないのは誰だ？
+
 * 完璧でなくてもいい。「時間と能力を尽くしてやってみた」ところを見せなさい。
+
 * 完璧じゃない方がゼミのトピックに好適。
+
 * 手もつけないか、お茶を濁したようなその場しのぎのプログラム持ってきたって
   お勉強にならないよ。
 

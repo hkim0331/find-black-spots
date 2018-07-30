@@ -21,10 +21,10 @@
   (lambda (xys)
     (max-f xys second)))
 
-
 ;; *c* は *colors* のインデックスとする。ちょっと敗北。
 (define *colors*
-  (list->vector (list (bytes 255 255 0 0)
+  (list->vector (list (bytes 255 255 255 255)
+                      (bytes 255 255 0 0)
                       (bytes 255 0 255 0)
                       (bytes 255 0 0 255)
                       (bytes 255 255 255 0)
@@ -35,6 +35,7 @@
   (lambda ()
     (set! *c* (modulo (+ 1 *c*) (vector-length *colors*)))
     (vector-ref *colors* *c*)))
+;;
 
 (define display-spot
   (lambda (spot bm)
