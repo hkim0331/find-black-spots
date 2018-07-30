@@ -114,7 +114,7 @@ $ ./find-black-spots.rkt img.png
          "find-spots.rkt"
          "display-spots.rkt")
 
-(display (find-spots (find-blacks img)))
+(display-spots (find-spots (find-blacks img)))
 ```
 
 # 実行時間
@@ -132,6 +132,7 @@ $ time racket find-black-spots.rkt sample2.png
 それはどこでしょう？
 
 馬場の未完成版プログラムは何秒かかった？
+発表では具体的なデータを出すこと。
 
 # 宿題出てるのに、
 
