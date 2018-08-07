@@ -30,21 +30,10 @@
 ;;   (lambda (xs)
 ;;     (pack-f cont? xs)))
 
-;; サンプルデータ。デバッグ用。
-(define make-sample
-  (lambda (rng y r)
-    (filter (lambda (x) (< (random 10) (* 10 r)))
 
-            (map (lambda (x) (list x y)) (apply range rng)))))
-;;(define line1 (make-sample '(0 20) 1 0.7))
-;;(define line2 (make-sample '(0 20) 2 0.7))
-;;(define line3 (make-sample '(0 20) 3 0.7))
-
-;; (define seg1 (segmentize line1))
-;; (define seg2 (segmentize line2))
-;; (define seg3 (segmentize line3))
-
-;; y 座標が 1 だけ増えてる、共通の x 座標を持つものがあるか？
+;; セグメントは、
+;;   * y 座標が 1 だけ増えて、
+;;   * 共通の x 座標を持つピクセルを含むか？
 (define common-x?
   (lambda (s1 s2)
     (let* ((x1 (map car s1))
@@ -80,4 +69,20 @@
     (let ((lines (map segmentize blacks)))
       (foldl join2 (car lines) (cdr lines)))))
 
-;;(find-spots (list line1 line2 line3))
+;; サンプルデータ。デバッグ用。
+(define make-sample
+  (lambda (rng y r)
+    (filter (lambda (x) (< (random 10) (* 10 r)))
+
+            (map (lambda (x) (list x y)) (apply range rng)))))
+
+;;(define line1 (make-sample '(0 20) 1 0.7))
+;;(define line2 (make-sample '(0 20) 2 0.7))
+;;(define line3 (make-sample '(0 20) 3 0.7))
+
+;; (define seg1 (segmentize line1))
+;; (define seg2 (segmentize line2))
+;; (define seg3 (segmentize line3))
+
+;;(length (find-spots (list line1 line2 line3)))
+
