@@ -1,30 +1,45 @@
 #!/usr/local/bin/racket
 #lang racket
-
-(provide find-blacks)
+;
+; if provide color? predicate,
+; can find any color pixels.
+;
+; usage:
+; (find-blacks "sample1.png")
+; (find-whites "sample5.png")
+;
+(provide find-blacks find-whites)
 
 (require racket/draw)
 
 (define black?
   (lambda (bm x y)
-    (let* ((argb (bytes 0 0 0 0))
-           (dummy (send bm get-argb-pixels x y 1 1 argb))
-           (r (bytes-ref argb 1))
-           (g (bytes-ref argb 2))
-           (b (bytes-ref argb 3)))
-;;      (display (format "(~a:~a) ~a ~a ~a~%" x y r g b))
-      (and (< r 50) (< g 50) (< b 50)))))
+    (let ((argb (bytes 0 0 0 0)))
+      (send bm get-argb-pixels x y 1 1 argb)
+      (and (< (bytes-ref argb 1) 50)
+           (< (bytes-ref argb 2) 50)
+           (< (bytes-ref argb 3) 50)))))
 
-(define find-blacks-aux
-  (lambda (filename)
+(define white?
+  (lambda (bm x y)
+    (let ((argb (bytes 0 0 0 0)))
+      (send bm get-argb-pixels x y 1 1 argb)
+      (and (< 200 (bytes-ref argb 1))
+           (< 200 (bytes-ref argb 2))
+           (< 200 (bytes-ref argb 3))))))
+
+(define find-color
+  (lambda (color? filename)
     (let ((bm (make-object bitmap% filename)))
       (for/list ([y (range (send bm get-height))])
-        (for/list ([x (range (send bm get-width))] #:when (black? bm x y))
+        (for/list ([x (range (send bm get-width))] #:when (color? bm x y))
           (list x y))))))
 
 (define find-blacks
   (lambda (filename)
-    (filter (lambda (x) (not (empty? x))) (find-blacks-aux filename))))
+    (filter (lambda (x) (not (empty? x))) (find-color black? filename))))
 
-;;(find-blacks "sample1.png")
+(define find-whites
+  (lambda (filename)
+    (filter (lambda (x) (not (empty? x))) (find-color white? filename))))
 

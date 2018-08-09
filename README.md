@@ -1,10 +1,21 @@
 # find-black-spots
 create: 2018-07-28.<br>
-update: 2018-07-29, 2018-07-30, 2018-08-01, 2018-08-07.
+update: 2018-07-29, 2018-07-30, 2018-08-01, 2018-08-07, 2018-08-09,
+
+# updates
+
+* 2018-08-09, find-blacks.rkt に find-whites 関数
+  find-blacks.rkt の名前は find-color.rkt の方がいいかも。
+  そして、color? 関数は外部で提供する。
+
+* 2018-08-09, sample5.jpg
+  血圧計を真似て。
+
+# find-black-spots
 
 2018 PBL の裏面回答。
 
-OpenCV等のグラフックライブラリによらずに、
+OpenCV 等のグラフックライブラリによらずに、
 2Dイメージ上の黒スポットを認識する racket プログラム。
 
 三つに分けてプログラムする。
