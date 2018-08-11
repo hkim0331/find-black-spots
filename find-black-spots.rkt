@@ -1,4 +1,3 @@
-#!/usr/local/bin/racket
 #lang racket
 
 (require "find-blacks.rkt"

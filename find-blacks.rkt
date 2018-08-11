@@ -35,6 +35,7 @@
         (for/list ([x (range (send bm get-width))] #:when (color? bm x y))
           (list x y))))))
 
+;; 泥縄
 (define find-blacks
   (lambda (filename)
     (filter (lambda (x) (not (empty? x))) (find-color black? filename))))
