@@ -1,6 +1,4 @@
-#!/usr/local/bin/racket
 #lang racket
-;;
 ;; 色を変えながらプロット。
 ;; 2018-07-19 に坂口に出した宿題の回答。
 ;; https://redmine.melt.kyutech.ac.jp/issues/5107
@@ -21,7 +19,7 @@
   (lambda (xys)
     (max-f xys second)))
 
-;; *c* は *colors* のインデックスとする。ちょっと敗北。
+;; *c* は *colors* のインデックスとする。
 (define *colors*
   (list->vector (list (bytes 255 0 0 0)
                       (bytes 255 255 0 0)
@@ -35,7 +33,6 @@
   (lambda ()
     (set! *c* (modulo (+ 1 *c*) (vector-length *colors*)))
     (vector-ref *colors* *c*)))
-;;
 
 (define display-spot
   (lambda (spot bm)

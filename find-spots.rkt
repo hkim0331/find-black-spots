@@ -75,13 +75,11 @@
 
             (map (lambda (x) (list x y)) (apply range rng)))))
 
-;;(define line1 (make-sample '(0 20) 1 0.7))
-;;(define line2 (make-sample '(0 20) 2 0.7))
-;;(define line3 (make-sample '(0 20) 3 0.7))
+(define test
+  (lambda ()
+    (let ((line1 (make-sample '(0 20) 1 0.7))
+          (line2 (make-sample '(0 20) 2 0.7))
+          (line3 (make-sample '(0 20) 3 0.7)))
+      (length (find-spots (list line1 line2 line3))))))
 
-;; (define seg1 (segmentize line1))
-;; (define seg2 (segmentize line2))
-;; (define seg3 (segmentize line3))
-
-;;(length (find-spots (list line1 line2 line3)))
-
+;(test)
