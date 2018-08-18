@@ -38,17 +38,19 @@
   (unless (zero? (vector-length argv))
     (set! img (vector-ref argv 0))))
 
+
+(define spots (find-spots (find-color white? img)))
+
+(define frame 
+  (first 
+    (sort spots (lambda (x y) (> (length x) (length y))))))
 (define-values (l t r b) (left-top-right-bottom frame))
-
-; (define spots (find-spots (find-color white? img)))
-
-; (define frame 
-;   (first 
-;     (sort spots (lambda (x y) (> (length x) (length y))))))
-; (define-values (l t r b) (left-top-right-bottom frame))
 
 ;(display-spots (list frame))
 ;(system "open spots.png")
+
+;; what is the frame?
+;(define-values (l t r b) (left-top-right-bottom frame))
 
 (define crop
   (lambda (infile top left width height outfile)
@@ -60,10 +62,10 @@
       (send bm2 save-file outfile 'png))))
 
       
-(crop "sample6.png" 70 110 70 140 "crop1.png")
+(crop "sample6.png" 70 130 70 120 "crop1.png")
 (system "open crop1.png")
-(crop "sample6.png" 140 110 70 140 "crop2.png")
+(crop "sample6.png" 140 130 70 120 "crop2.png")
 (system "open crop2.png")
-(crop "sample6.png" 210 110 70 140 "crop3.png")
+(crop "sample6.png" 210 130 70 120 "crop3.png")
 (system "open crop3.png")
 
